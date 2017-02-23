@@ -27,4 +27,6 @@ if __name__=='__main__':
     )
 
     res = bin_sum_features(data)
-    print(res)
+    assert isinstance(res, np.ndarray) or \
+        isinstance(res, np.matrixlib.defmatrix.matrix)
+    assert res.shape == (10,7)
