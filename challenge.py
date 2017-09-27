@@ -12,7 +12,7 @@ SUM_INTERVALS = [(-7,0), (-14,0), (-30,0)]
 #
 # *It is encouraged to use the pandas library for this task but it is not required.*
 
-def bin_sum_features(data):
+def bin_sum_features(data, today=pd.Timestamp('2016-02-01')):
     pass
 
 if __name__=='__main__':
