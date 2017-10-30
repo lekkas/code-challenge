@@ -16,17 +16,17 @@ python challenge.py
 Your solution will be evaluated against the following criteria:
 * pandas/numpy knowledge
 * complexity (the lower the better)
-* efficiency (use of GIL releasing / cythonized functions)
+* efficiency (use of GIL releasing / cythonized functions, memory use, etc.)
 * ease of parallelization
-* readability (our projects comply with PEP8 Standard)
+* readability (PEP8 Standard)
 * documentation
 
 
 ## Submission
-Please zip your solution including all files and send to us with
-the following naming schema:
+Please zip your solution including all files (do not include the generated data directory!) 
+and send to us with the following naming schema:
 ```
 cc_<name>_<last_name>.zip
 ```
 
-Solutions that don't follow that convention can not be evaluated.
+Solutions that don't follow this convention can not be evaluated.
