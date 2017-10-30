@@ -16,9 +16,7 @@ SUM_INTERVALS = [(-7,0), (-14,0), (-30,0)]
 def bin_sum_features(csv_glob="data/shard-*.csv.gz", today=pd.Timestamp('2016-02-01')):
     pass
 
-if __name__=='__main__':
-    import os
-    
+def generate_data():
     # Generate some random data
     uids=np.array([str(uuid.uuid4()) for _ in range(10)])
     times = pd.date_range('2016-01-01','2016-02-01', freq='s')
@@ -28,20 +26,20 @@ if __name__=='__main__':
         feature_a=np.random.randint(0,100, 100),
         feature_b=np.random.random(100),
     )
-    
+
     df = pd.DataFrame(data)\
         .set_index('timestamp')\
         .sort_index()
-    
+
     os.makedirs('data')
-    
+
     for ts in times:
         path = "data/shard-{:%Y-%m-%d}".format(ts)
         df.loc[ts]\
             .reset_index()\
             .sample(frac=1)\
             .to_csv(path, index=False, compression='gzip')
-    
-    del data, uids, times, df
 
+if __name__=='__main__':
+    # generate_data()  # uncomment for your testing but leave commented in submission
     res = bin_sum_features("data/shard-*.csv.gz", pd.Timestamp('2016-02-01'))
