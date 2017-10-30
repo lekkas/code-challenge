@@ -21,9 +21,12 @@ Your solution will be evaluated against the following criteria:
 * readability (PEP8 Standard)
 * documentation
 
+Please don't generate testdata in your submission. Your solution will be evaluated
+automatically and checked for correctness using an automated testuite on real data.
+
 
 ## Submission
-Please zip your solution including all files (do not include the generated data directory!) 
+Please zip your solution including all files (do not include the generated data directory!)
 and send to us with the following naming schema:
 ```
 cc_<name>_<last_name>.zip
