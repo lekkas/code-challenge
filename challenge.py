@@ -1,20 +1,28 @@
 # coding: utf-8
 """Challenge
 
-The `SUM_INTERVAL` variable contains relative time
-intervals in days. So the first means 7 days back until today.
+The `SUM_INTERVAL` variable contains relative time intervals in days. So the
+first means 7 days back until today.
 
-The generated files contain 1000 distinct users which made
-visits over the timespan of one month. Each visit has a
-value for `feature a`, as awell as `feature_b` assigned to it.
+The generated files contain 1000 distinct users which made visits over the
+timespan of one month. Each visit has a value for `feature a`, as awell as
+`feature_b` assigned to it.
 
-For each user calculate the sum of it's respective features
-for each time interval. The final output should be a numpy
-matrix containing one row per user, an id column an the feature
-columns (N_users, 1 + N_intervals*N_features)
+For each user calculate the sum of it's respective features for each time
+interval. The final output should be a numpy matrix containing one row per
+user, an id column an the feature columns (N_users, 1 + N_intervals*N_features)
 
-You are encouraged to use the pandas library for this task
-but it is not required.
+### Note The feature columns are expected to be in descending order (in terms
+of days included, so 30 days feature A as the first column and 30 days
+feature B is second and so on). The resulting matrix should be ordered by the
+user ids.
+
+When the relative interval `(-7, 0)` is given with the date `2017-02-01` the
+semantics are to include features values within following time interval:
+`[2016-01-25 00:00:00; 2016-02-01 00:00:00)`
+
+
+You are encouraged to use the pandas library for this task but it is not required.
 """
 import os
 import pandas as pd
