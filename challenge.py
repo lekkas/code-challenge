@@ -22,20 +22,59 @@ semantics are to include features values within following time interval:
 `[2016-01-25 00:00:00; 2016-02-01 00:00:00)`
 
 
-You are encouraged to use the pandas library for this task but it is not required.
+You are encouraged to use the pandas library for this task but it is not
+required.
 """
 import os
 import pandas as pd
 import numpy as np
 import uuid
 from tqdm import tqdm
+import dask.dataframe as dd
 
 SUM_INTERVALS = [(-7, 0), (-14, 0), (-30, 0)]
 
 
 def bin_sum_features(csv_glob="data/shard-*.csv.gz",
                      today=pd.Timestamp('2016-02-01')):
-    pass
+    """Calculate sum of feature for each time interval using Dask"""
+
+    dfs = []
+
+    if not SUM_INTERVALS:
+        return None
+
+    df = dd.read_csv(csv_glob, parse_dates=['timestamp'], compression='gzip',
+                     blocksize=None)
+
+    for interval in SUM_INTERVALS:
+
+        days_before = interval[0]
+        days_after = interval[1]
+        start_day = today + pd.Timedelta(f"{days_before} days")
+        end_day = today + pd.Timedelta(f"{days_after} days")
+
+        if start_day > end_day:
+            raise ValueError("Wrong day interval")
+
+        mask = (df['timestamp'] >= start_day) & (df['timestamp'] <= end_day)
+
+        interval_data = df.mask(mask, other=None)
+        aggregate = interval_data.groupby('id').sum()
+
+        days = abs(days_before)
+        aggregate = aggregate.rename(columns={
+                                     "feature_a": f"feature_a_{days}",
+                                     "feature_b": f"feature_b_{days}"})
+
+        dfs.append(aggregate)
+
+    df_aggregate = dfs[0]
+
+    for frame in dfs[1:]:
+        df_aggregate = df_aggregate.merge(frame, how='outer')
+
+    return df_aggregate.reset_index().compute()
 
 
 def generate_data():
@@ -68,3 +107,4 @@ if __name__ == '__main__':
     # generate_data()
     res = bin_sum_features("data/shard-*.csv.gz",
                            pd.Timestamp('2016-02-01'))
+    print(res.head())
